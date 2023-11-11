@@ -39,8 +39,8 @@ async fn main() {
         Ok(()) => std::process::exit(0),
         Err(e) =>  {
             match e { 
-                fdo::Error::ServiceUnknown(_) => println!("Error: Failed to find pomd dbus interface, is pomd running?"),
-                _ => println!("Error calling pomd command: {}", e)
+                fdo::Error::ServiceUnknown(_) => eprintln!("Error: Failed to find pomd dbus interface, is pomd running?"),
+                _ => eprintln!("Error calling pomd command: {}", e)
             }
             std::process::exit(1)
         }
