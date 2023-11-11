@@ -1,7 +1,7 @@
 use std::{error::Error, time::Duration};
 
 use clap::{Parser, Subcommand};
-use zbus::Connection;
+use zbus::{Connection, fdo};
 
 #[derive(Debug, Parser)]
 #[clap(name = "pomc", version)]
@@ -23,25 +23,31 @@ enum Command {
 }
 
 #[async_std::main]
-async fn main() -> Result<(), Box<dyn Error>> {
+async fn main() {
     let args = Pomc::parse();
-    let connection = Connection::session().await?;
-
-    match args.command {
-        Command::Start => start(&connection).await?,
-        Command::Pause => pause(&connection).await?,
-        Command::Stop => stop(&connection).await?,
-        Command::Skip => skip(&connection).await?,
-        Command::GetIteration => get_iteration(&connection).await?,
-        Command::GetRemaining => get_remaining(&connection).await?,
-        Command::IsRunning => is_running(&connection).await?,
-        Command::IsOnBreak => is_on_break(&connection).await?,
+    let connection = Connection::session().await.expect("Failed to open dbus connection, is dbus running?");
+    match match args.command {
+        Command::Start => start(&connection).await,
+        Command::Pause => pause(&connection).await,
+        Command::Stop => stop(&connection).await,
+        Command::Skip => skip(&connection).await,
+        Command::GetIteration => get_iteration(&connection).await,
+        Command::GetRemaining => get_remaining(&connection).await,
+        Command::IsRunning => is_running(&connection).await,
+        Command::IsOnBreak => is_on_break(&connection).await,
+    } {
+        Ok(()) => std::process::exit(0),
+        Err(e) =>  {
+            match e { 
+                fdo::Error::ServiceUnknown(_) => println!("Error: Failed to find pomd dbus interface, is pomd running?"),
+                _ => println!("Error calling pomd command: {}", e)
+            }
+            std::process::exit(1)
+        }
     }
-
-    Ok(())
 }
 
-async fn start(connection: &Connection) -> Result<(), Box<dyn Error>> {
+async fn start(connection: &Connection) -> Result<(), fdo::Error> {
     connection
         .call_method(
             Some("dev.exvacuum.pomd"),
@@ -54,7 +60,7 @@ async fn start(connection: &Connection) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-async fn pause(connection: &Connection) -> Result<(), Box<dyn Error>> {
+async fn pause(connection: &Connection) -> Result<(), fdo::Error> {
     connection
         .call_method(
             Some("dev.exvacuum.pomd"),
@@ -67,7 +73,7 @@ async fn pause(connection: &Connection) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-async fn stop(connection: &Connection) -> Result<(), Box<dyn Error>> {
+async fn stop(connection: &Connection) -> Result<(), fdo::Error> {
     connection
         .call_method(
             Some("dev.exvacuum.pomd"),
@@ -80,7 +86,7 @@ async fn stop(connection: &Connection) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-async fn skip(connection: &Connection) -> Result<(), Box<dyn Error>> {
+async fn skip(connection: &Connection) -> Result<(), fdo::Error> {
     connection
         .call_method(
             Some("dev.exvacuum.pomd"),
@@ -93,7 +99,7 @@ async fn skip(connection: &Connection) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-async fn get_iteration(connection: &Connection) -> Result<(), Box<dyn Error>> {
+async fn get_iteration(connection: &Connection) -> Result<(), fdo::Error> {
     let m = connection
         .call_method(
             Some("dev.exvacuum.pomd"),
@@ -108,7 +114,7 @@ async fn get_iteration(connection: &Connection) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-async fn get_remaining(connection: &Connection) -> Result<(), Box<dyn Error>> {
+async fn get_remaining(connection: &Connection) -> Result<(), fdo::Error> {
     let m = connection
         .call_method(
             Some("dev.exvacuum.pomd"),
@@ -124,7 +130,7 @@ async fn get_remaining(connection: &Connection) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-async fn is_running(connection: &Connection) -> Result<(), Box<dyn Error>> {
+async fn is_running(connection: &Connection) -> Result<(), fdo::Error> {
     let m = connection
         .call_method(
             Some("dev.exvacuum.pomd"),
@@ -139,7 +145,7 @@ async fn is_running(connection: &Connection) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-async fn is_on_break(connection: &Connection) -> Result<(), Box<dyn Error>> {
+async fn is_on_break(connection: &Connection) -> Result<(), fdo::Error> {
     let m = connection
         .call_method(
             Some("dev.exvacuum.pomd"),
