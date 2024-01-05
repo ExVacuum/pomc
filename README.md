@@ -3,6 +3,12 @@
 This program provides a basic CLI client for the [pomd](https://github.com/exvacuum/pomd) pomodoro daemon.
 
 ## Installation
+
+### Via crates.io
+```sh
+cargo install pomc
+```
+
 ### From Source
 ```sh
 cargo install --path .
