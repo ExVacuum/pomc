@@ -1,4 +1,4 @@
-use std::{error::Error, time::Duration};
+use std::time::Duration;
 
 use clap::{Parser, Subcommand};
 use zbus::{Connection, fdo};
@@ -12,13 +12,21 @@ struct Pomc {
 
 #[derive(Debug, Subcommand)]
 enum Command {
+    /// Start the pomodoro timer
     Start,
+    /// Pause the pomodoro timer
     Pause,
+    /// Stop the pomodoro timer
     Stop,
+    /// Skip the current timer
     Skip,
+    /// Retrieve the current iteration of the pomodoro
     GetIteration,
+    /// Get remaining timer duration (MM:SS)
     GetRemaining,
+    /// Get whether the timer is running
     IsRunning,
+    /// Get whether the current timer is a break
     IsOnBreak,
 }
 

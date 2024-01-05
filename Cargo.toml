@@ -1,6 +1,10 @@
 [package]
 name = "pomc"
-version = "1.1.1"
+version = "1.1.2"
+description = "Client program for pomd pomodoro daemon"
+license = "MIT OR Apache-2.0"
+keywords = ["productivity", "pomodoro", "daemon"]
+repository = "https://github.com/exvacuum/pomc"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
