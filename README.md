@@ -1,6 +1,6 @@
 # pomc: pomodoro daemon client
 
-![Crates.io Version](https://img.shields.io/crates/v/pomc)
+[![Crates.io Version](https://img.shields.io/crates/v/pomc)](https://crates.io/crates/pomc)
 
 This program provides a basic CLI client for the [pomd](https://github.com/exvacuum/pomd) pomodoro daemon.
 
