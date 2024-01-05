@@ -21,14 +21,14 @@ cargo install --path .
 Usage: pomc <COMMAND>
 
 Commands:
-  start          
-  pause          
-  stop           
-  skip           
-  get-iteration  
-  get-remaining  
-  is-running     
-  is-on-break    
+  start          Start the pomodoro timer
+  pause          Pause the pomodoro timer
+  stop           Stop the pomodoro timer
+  skip           Skip the current timer
+  get-iteration  Retrieve the current iteration of the pomodoro
+  get-remaining  Get remaining timer duration (MM:SS)
+  is-running     Get whether the timer is running
+  is-on-break    Get whether the current timer is a break
   help           Print this message or the help of the given subcommand(s)
 
 Options:
