@@ -117,7 +117,7 @@ async fn get_iteration(connection: &Connection) -> Result<(), fdo::Error> {
             &(),
         )
         .await?;
-    let iteration: u8 = m.body().unwrap();
+    let iteration: u8 = m.body().deserialize()?;
     println!("{}", iteration + 1);
     Ok(())
 }
@@ -132,7 +132,7 @@ async fn get_remaining(connection: &Connection) -> Result<(), fdo::Error> {
             &(),
         )
         .await?;
-    let remaining: Duration = m.body().unwrap();
+    let remaining: Duration = m.body().deserialize()?;
     let remaining_secs = remaining.as_secs();
     println!("{:02}:{:02}", remaining_secs / 60, remaining_secs % 60);
     Ok(())
@@ -148,7 +148,7 @@ async fn is_running(connection: &Connection) -> Result<(), fdo::Error> {
             &(),
         )
         .await?;
-    let is_running: bool = m.body().unwrap();
+    let is_running: bool = m.body().deserialize()?;
     println!("{}", is_running as u8);
     Ok(())
 }
@@ -163,7 +163,7 @@ async fn is_on_break(connection: &Connection) -> Result<(), fdo::Error> {
             &(),
         )
         .await?;
-    let is_on_break: bool = m.body().unwrap();
+    let is_on_break: bool = m.body().deserialize()?;
     println!("{}", is_on_break as u8);
     Ok(())
 }

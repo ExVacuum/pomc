@@ -1,15 +1,15 @@
 [package]
 name = "pomc"
-version = "1.1.2"
+version = "1.1.3"
 description = "Client program for pomd pomodoro daemon"
-license = "MIT OR Apache-2.0"
+license = "0BSD OR MIT OR Apache-2.0"
 keywords = ["productivity", "pomodoro", "daemon"]
-repository = "https://github.com/exvacuum/pomc"
+repository = "https://git.exvacuum.dev/pomc"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-async-std = { version = "1.12.0", features = ["attributes"] }
-clap = { version = "4.4.8", features = ["derive"] }
-zbus = "3.14.1"
+async-std = { version = "1.13", features = ["attributes"] }
+clap = { version = "4.5", features = ["derive"] }
+zbus = "5.1"
